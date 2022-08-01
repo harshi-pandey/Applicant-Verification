@@ -1,0 +1,25 @@
+<apex:page standardController="Applicant__c"  extensions="lockApplicantController_sls" recordSetVar="applicant" lightningStylesheets="true" standardstylesheets="false" showHeader="false">
+    <apex:includeLightning />    
+    <script>
+            var valid = "{!validList}";
+            let recordList = '{!recordList}';
+            if (valid) {
+                var warningMsg = '{!warningMsg}';
+                    $Lightning.use("c:lockApplicantAura_sls", function () {
+                            $Lightning.createComponent("c:lockApplicant_sls",
+                            {
+                                recordList: '{!recordList}',
+                                warningMsg: '{!warningMsg}'
+                            },
+                            "lightning",
+                            function (component) {
+                                console.log('LWC Componenet added in VF page');
+                            });
+                    });       
+            }
+            else{
+                history.back();
+            }    
+    </script>
+    <div id="lightning" />
+</apex:page>

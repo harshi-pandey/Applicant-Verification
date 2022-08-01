@@ -1,0 +1,56 @@
+<template>
+    <section aria-describedby="dialog-body-id-107" aria-label="Dialog Title" class="slds-popover" role="dialog">
+        <button class="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close "
+            title="Close dialog" data-name={name} onclick={closeModal}>
+            <lightning-icon icon-name="utility:close" size="x-small">
+            </lightning-icon>
+            <span class="slds-assistive-text">Close</span>
+        </button>
+        <header class="slds-popover__header">
+            <h2 class="slds-text-heading_small">Raise Query On {queryData.field}
+                <hr class="hrheader">
+            </h2>
+        </header>
+        <div class="slds-popover__body">
+            <div class="slds-media">
+                <div class="slds-media__body">
+                    <label class="slds-form-element__label p-around_x-small" for="combobox-unique-id-3">Enter
+                        Query</label><br />
+                    <lightning-input-rich-text label="Enter Query" placeholder="Select Reason to raise query"
+                        class="query" onchange={handleQueryChange}></lightning-input-rich-text>
+                    <template if:true={queryMissing}>
+                        <p style="color: red;font-size:small">Query is Required</p>
+                    </template>    
+                    <lightning-input class="description" type="text" label="Description" style="text-align: left;" onchange={handleDescChange}></lightning-input>
+                    <template if:true={descMissing}>
+                        <p style="color: red;font-size:small">Description is Required</p>
+                    </template>
+                    <br>
+                    <label class="input-field-label slds-form-element__label slds-text-align_left"
+                        for="text-input-id-branch">Approval Authority</label>
+                    <c-custom-lookup_sls onselect={approvalAuthorityFn} payload={approvalAuthorityList}></c-custom-lookup_sls>
+                    <template if:true={approvalMissing}>
+                        <p style="color: red;font-size:small">Approval Authority is Required</p>
+                    </template>
+                    <br>
+
+                    <label class="input-field-label slds-form-element__label slds-text-align_left"
+                        for="text-input-id-branch">Notify Authority</label>
+                    <c-custom-lookup_sls onselect={approvalAuthorityFn} payload={notifyAuthorityList}></c-custom-lookup_sls>
+
+                    <lightning-textarea name="Comments" style="text-align: left;" label="Enter Comments"
+                        placeholder="Start Typing...">
+                    </lightning-textarea>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <footer class="slds-popover__footer" style="height: 50px">
+            <div class="slds-grid slds-grid_vertical-align-center slds-float_right">
+                <button type="button" class="slds-button slds-button_neutral" style="color: #a52352;"
+                    onclick={handleRaiseQuery}>Raise Query
+                </button>
+            </div>
+        </footer>
+    </section>
+</template>

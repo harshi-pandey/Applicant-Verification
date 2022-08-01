@@ -1,0 +1,147 @@
+<template>
+    <template if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+    <lightning-card if:true={tableList}>
+        <div if:false={hideheader} class={headerStyle}>
+            <span>
+                <lightning-icon icon-name={hideShowIcon} alternative-text="Show/Hide"
+                    class="slds-p-horizontal_x-small slds-icon-text-default " size="x-small" label='show' title="Show"
+                    onclick={hideandshow}>
+                </lightning-icon>
+            </span>
+            <span style="font-weight: bold; font-size: 16px;" class="slds-var-p-left_xxx-small">{sectionName}</span>
+        </div>
+        <template if:true={showTable}>
+
+            <div class="slds-m-top_small slds-p-right_none slds-p-left_none ">
+                <lightning-layout multiple-rows="true"
+                    class="slds-var-p-bottom_small slds-p-right_none slds-p-left_none">
+                    <lightning-layout-item if:true={notabledata} padding="horizontal-small" size="12"
+                        small-device-size="12" large-device-size="9" class="slds-var-p-bottom_small">
+                        <div class="slds-box slds-box_small">
+                            <lightning-layout multiple-rows="true" class="slds-var-p-bottom_small">
+                                <lightning-layout-item padding="horizontal-small" size="1"
+                                    class="slds-var-p-bottom_small">
+                                    <lightning-icon class="slds-align_absolute-center"
+                                        style="--sds-c-icon-color-foreground-default: red;" icon-name="utility:warning"
+                                        alternative-text="Warning!" title="Warning">
+                                    </lightning-icon>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="horizontal-small" size="11"
+                                    class="slds-var-p-bottom_small">
+                                    <div class="slds-text-heading_small slds-p-top_x-small">No records found for the
+                                        given ID or Combination of inputs.</div>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="horizontal-small" size="1"
+                                    class="slds-var-p-bottom_small">
+                                    <div>
+                                        <p class="slds-align_absolute-center" style="font-size:9px">104 Code</p>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="horizontal-small" size="11"
+                                    class="slds-var-p-bottom_small">
+                                    <div>
+                                        <p style="font-size:9px">No Records Available
+                                        </p>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item if:false={notabledata} padding="horizontal-small" size="12"
+                        small-device-size="12" large-device-size="12"
+                        class="slds-var-p-bottom_small slds-p-right_none slds-p-left_none">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered"
+                            aria-label="Data of the Party">
+                            <thead if:true={tableHeader} class={subHeader}>
+                                <tr class="slds-line-height_reset">
+                                    <th scope="col" if:false={hideCheckboxCol}>
+                                        <div class="slds-cell-wrap" title="Select All">
+                                            <lightning-input type="checkbox" variant="label-hidden" label="Select All"
+                                                name="Select All" onchange={selectallcheckboxcheckAll}>
+                                            </lightning-input>
+                                        </div>
+                                    </th>
+                                    <template for:each={tableHeader} for:item="heading">
+                                        <th key={heading} scope="col">
+                                            <div class="slds-cell-wrap" title={heading}>{heading}</div>
+                                        </th>
+                                    </template>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={tableList} for:item="item">
+                                    <tr key={item} class="slds-hint-parent">
+                                        <!-- Checkbox -->
+                                        <th scope="row" if:false={hideCheckboxCol}>
+                                            <div class="slds-cell-wrap" title="Select">
+                                                <lightning-input data-id="selectfields" type="checkbox"
+                                                    variant="label-hidden" label="Select" name="Select">
+                                                </lightning-input>
+                                            </div>
+                                        </th>
+                                        <!-- Field -->
+                                        <td class="slds-cell-wrap">
+                                            <div class="slds-line-clamp" title={item.field}>{item.field}</div>
+                                        </td>
+                                        <!-- Value -->
+                                        <td class="slds-cell-wrap">
+                                            <div class="slds-line-clamp" title={item.value}>{item.value}</div>
+                                        </td>
+                                        <!-- Team badge -->
+                                        <td class="slds-cell-wrap" if:true={item.team}>
+                                            <div style="margin-left: -19px;" class="slds-line-clamp" title={item.team}>
+                                                <lightning-badge label={item.team} icon-name="custom:custom11">
+                                                </lightning-badge>
+                                            </div>
+                                        </td>
+                                        <!-- Raise Query Popover -->
+                                        <td class="slds-cell-wrap">
+                                            <div title="Raise Query" style="margin-left: 24px;">
+                                                <lightning-icon icon-name="utility:retail_execution"
+                                                    alternative-text="Raise Query" title="Raise Query" size="xx-small"
+                                                    data-value={item.value} data-field={item.field}
+                                                    onclick={handleQuery} style="cursor: pointer;">
+                                                </lightning-icon>
+                                                <div data-value={item.value} data-field={item.field}
+                                                    class="popover-auth slds-hide slds-popover slds-nubbin_right raise-auth">
+                                                    <c-raise-query_sls query-data={item} onqueryclosed={queryClosed}
+                                                        approval-authority-list={approvalAuthority}
+                                                        notify-authority-list={notifyAuthority}></c-raise-query_sls>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!-- Action - Combobox -->
+                                        <td class="slds-cell-wrap">
+                                            <lightning-combobox class="combobox" placeholder="Select Action"
+                                                options={options}>
+                                            </lightning-combobox>
+                                        </td>
+                                        <!-- Validate -->
+                                        <td class="slds-cell-wrap">
+                                            <div style="cursor: pointer;color:red;" title="Validate">
+                                                <template if:true={item.validated}>
+                                                    <lightning-icon icon-name="utility:success"
+                                                        alternative-text="Success!" variant="success" title="Validated"
+                                                        size="small" style="margin-left: 15px;">
+                                                    </lightning-icon>
+                                                </template>
+                                                <template if:false={item.validated}>
+                                                    <span> Validate </span>
+                                                </template>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </template>
+    </lightning-card>
+    <template if:false={tableList}>
+        <c-no-data_sls></c-no-data_sls>
+    </template>
+</template>

@@ -1,0 +1,2 @@
+<apex:page standardController="Applicant__c" extensions="lockApplicantController_sls" recordSetVar="applicant"  action="{!unlockApplicant}" lightningStylesheets="true"  showHeader="false" >
+</apex:page>

@@ -1,0 +1,14 @@
+@import 'c/themeLibrary';
+
+.popover-auth {
+    position: absolute;
+    right: 11.5rem;
+    top: -19.5rem;
+}
+
+.combobox {
+    display: flex;
+    flex-direction: column;
+    margin-left: -36px;
+    max-width: 70%;
+}

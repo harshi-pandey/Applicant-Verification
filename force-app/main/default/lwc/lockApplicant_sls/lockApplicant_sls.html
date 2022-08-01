@@ -1,0 +1,57 @@
+<template>
+    <lightning-card>
+      <div class="slds-modal__container slds-p-around_none ">
+        <header class="slds-modal__header">
+            <h4 id="modal-heading-01" class="slds-text-heading_large slds-align_absolute-center slds-hyphenate">
+                Lock Applicant
+            </h4>
+        </header>
+        <div class="slds-p-around_medium">
+          <div class="slds-form-element">
+            <label class="slds-text-heading_medium" for="combobox-id-5" id="combobox-label-id-37">Locked
+              By</label>
+            <div class="slds-form-element__control">
+              <div class="slds-combobox_container slds-has-selection">
+                <lightning-record-edit-form object-api-name="Applicant__c">
+                  <lightning-input-field field-name="Locked_By__c" variant="label-hidden" value={pickvalue}
+                    onchange={handleChange}>
+                  </lightning-input-field>
+                </lightning-record-edit-form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slds-align_absolute-center">
+          <button class="slds-button slds-button_brand" onclick={closemodel}>Cancel</button>
+          <button class="slds-button slds-button_brand" onclick={savemodel}>Save</button>
+        </div>
+      </div>
+    </lightning-card>
+    <template if:true={openerror}>
+      <div class="demo-only" style="height:24rem">
+        <section role="alertdialog" tabindex="0" aria-labelledby="prompt-heading-id"
+          aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal_prompt"
+          aria-modal="true">
+          <div class="slds-modal__container">
+            <header class="slds-modal__header slds-theme_error slds-theme_alert-texture">
+              <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                onclick={closemodel}>
+                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                  <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                </svg>
+                <span class="slds-assistive-text">Close</span>
+              </button>
+              <h2 class="slds-text-heading_medium" id="prompt-heading-id">Error</h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium" id="prompt-message-wrapper">
+              <p>{warningMsg}</p>
+            </div>
+            <footer class="slds-modal__footer slds-theme_default">
+              <button class="slds-button slds-button_neutral" onclick={closemodel}>Go Back</button>
+            </footer>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+      </div>
+    </template>
+  </template>

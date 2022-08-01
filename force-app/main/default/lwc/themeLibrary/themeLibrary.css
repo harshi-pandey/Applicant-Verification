@@ -1,0 +1,41 @@
+
+/*Theme : Normal*/
+.headergrey{
+    padding:8px; 
+    background-color: rgb(236, 235, 234);
+}
+/*Theme : Pink*/
+.headerPink{
+    padding:8px; 
+    background-color: #f5d6db !important;
+}
+.SubHeaderPink > tr> th{
+    background-color: #ffedf0 !important;
+}
+
+/*Theme : Blue*/
+.headerBlue{
+    padding:8px; 
+    background-color: #d6daf5 !important;
+}
+.SubHeaderBlue > tr> th{
+    background-color: #ebedff !important;
+}
+
+/*Theme : Green*/
+.headerGreen{
+    padding:8px; 
+    background-color: #bafdb0 !important;
+}
+.SubHeaderGreen > tr> th{
+    background-color: #d2fac8 !important;
+}
+
+/*Theme : Green*/
+.headerGreen{
+    padding:8px; 
+    background-color: #bafdb0 !important;
+}
+.SubHeaderGreen > tr> th{
+    background-color: #d2fac8 !important;
+}
