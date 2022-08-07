@@ -1,0 +1,15 @@
+.afooter{
+    background-color:#F3F2F2;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding-right: 6px;
+}
+.green-icon{
+    --sds-c-icon-color-background: #04844b;
+    margin-top: 20px;
+}
+.close-icon{
+    --sds-c-icon-color-foreground-default:white;    
+  }

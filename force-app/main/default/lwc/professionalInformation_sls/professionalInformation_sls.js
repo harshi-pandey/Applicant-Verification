@@ -1,7 +1,11 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, api } from 'lwc';
+import generateApprovalLetter from '@salesforce/apex/ApplicantController_sls.generateApprovalLetter';
+import { NavigationMixin } from 'lightning/navigation';
+export default class ProfessionalInformation_sls extends NavigationMixin(LightningElement) {
 
-export default class ProfessionalInformation_sls extends LightningElement {
-
+    @api recordId;
+    filesList = [];
+    successModal;
     jsonPayLoad = {
         sectionName : 'Personal Details',
         tableHeader:['Field Name', 'Field Value','Team', 'Raise Query', 'Actions', 'Validate'],
@@ -34,4 +38,35 @@ export default class ProfessionalInformation_sls extends LightningElement {
             { label: 'Finished', value: 'finished' }
         ]
     };
+
+    handleApprove(){
+        console.log('Inside handleApprove')
+        generateApprovalLetter({recordId : this.recordId})
+        .then(result => {
+            this.filesList.push(result[0]);
+            console.log('Approval Letter Generated', JSON.stringify(result))
+            console.log('File List : ', this.filesList)
+            if(this.filesList.length>0){
+                console.log('File length')
+                console.log(this.filesList.length)
+                this.successModal = true;
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+
+    closeApprovalModal(){
+        this.successModal = false;
+    }
+
+    navigateToQueue(){
+        this[NavigationMixin.Navigate]({
+            type: 'standard__webPage',
+            attributes: {
+                url: window.location.origin + "/lightning/n/Common_Queue"
+            }
+        });
+    }
 }

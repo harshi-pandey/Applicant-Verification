@@ -1,0 +1,12 @@
+<template>
+    <template if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+    <ul class="slds-has-dividers_around slds-has-block-links_space">
+        <template for:each={filesList} for:item="file">
+            <li key={file} class="slds-item">
+                <a href={file.publicURL}>{file.title}</a>
+            </li>
+        </template>
+    </ul>
+</template>

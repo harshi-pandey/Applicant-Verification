@@ -1,6 +1,70 @@
 <template>
     <c-table-viewer-dynamic_sls master-data={jsonPayLoad} hide-checkbox-col></c-table-viewer-dynamic_sls>
     <c-table-viewer-dynamic_sls master-data={jsonPayLoad} theme="green"></c-table-viewer-dynamic_sls>
-    <c-table-viewer-dynamic_sls master-data={jsonPayLoad} theme="pink"></c-table-viewer-dynamic_sls>    
+    <c-table-viewer-dynamic_sls master-data={jsonPayLoad} theme="pink"></c-table-viewer-dynamic_sls>
     <c-table-viewer-dynamic_sls master-data={jsonPayLoad} theme="blue"></c-table-viewer-dynamic_sls>
+
+    <div slot="footer" class="afooter slds-m-top_small">
+        <lightning-button variant="success" label="Approve" title="Approve Applicant" icon-name="action:approval"
+            class="slds-m-left_x-small" onclick={handleApprove}></lightning-button>
+    </div>
+    <!-- Show Approval Success Modal-->
+    <template if:true={successModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button onclick={closeApprovalModal}
+                    class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                    <lightning-icon icon-name="utility:close" alternative-text="close" size="small" class="close-icon">
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <div style="display:flex;justify-content:space-evenly;" class="slds-modal__content slds-p-top_medium"
+                    id="modal-content-id-4">
+                    <lightning-icon class="green-icon" icon-name="action:approval" size="medium"></lightning-icon>
+                </div>
+                <div style="display: flex;flex-direction: column;" class="slds-modal__content slds-p-bottom_xx-large"
+                    id="modal-content-id-5">
+                    <span style="font-size: 20px;font-weight: bold;text-align:center;">
+                        Successfully Approved! </span>
+                    <div class="slds-p-around_medium">
+                        <lightning-tile>
+                            <template for:each={filesList} for:item="file">
+                                <dl style="display: flex;justify-content: space-between;padding:5px"
+                                    class="slds-dl_horizontal " key={file}>
+                                    <dt class="dtFileStyle">
+                                        <div class="slds-float_left">
+                                            <div class="slds-float_left">
+                                                <lightning-icon icon-name="standard:record" class="slds-float_left"
+                                                    size="small" style=" display:inline-block;">
+                                                </lightning-icon>
+                                            </div>
+                                            <div style="padding-left: 20px;" class="slds-float_right">
+                                                <a href={file.publicURL} target="_blank">{file.title}</a>
+                                            </div>
+                                        </div>
+                                    </dt>
+                                    <dd class="ddfileStyle">
+                                        <div
+                                            class="slds-col slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_12-of-12 slds-float_right">
+                                            <a href={file.DownloadURL} download>
+                                                <lightning-icon icon-name="utility:download"
+                                                    class="slds-float_right red-icon" size="small"
+                                                    style=" display:inline-block;">
+                                                </lightning-icon>
+                                            </a>
+                                        </div>
+                                    </dd>
+                                </dl>
+                            </template>
+                        </lightning-tile>
+                    </div>
+                </div>
+                <div class="slds-modal__footer slds-modal__footer_directional" style="display:flex;justify-content:center;background-color:white;">
+                    <button class="slds-button slds-button_brand" onclick={navigateToQueue}>Go to Common Queues</button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
 </template>
